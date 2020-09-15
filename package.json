@@ -1,0 +1,23 @@
+{
+  "name": "backend-tables",
+  "version": "0.9.2",
+  "description": "A Simple Datatables plugin for backend pagination, sorting and filtering",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Simple",
+    "Datatables",
+    "backend",
+    "asynchronous",
+    "pagination",
+    "sorting",
+    "filtering"
+  ],
+  "dependencies": {
+  	"simple-datatables": "~2.1.0"
+  },
+  "author": "Lukas Bauer",
+  "license": "ISC"
+}
