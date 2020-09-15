@@ -1,3 +1,5 @@
+import {DataTable} from "simple-datatables";
+
 const backendTables = require("./backend_tables");
 
-exports.initPlugin = backendTables.initPlugin;
+backendTables.initPlugin(DataTable)

@@ -18,6 +18,10 @@
   "dependencies": {
   	"simple-datatables": "~2.1.0"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/kecicz/backend-tables.git"
+  },
   "author": "Lukas Bauer",
   "license": "ISC"
 }
