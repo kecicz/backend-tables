@@ -17,8 +17,8 @@ function initPlugin(dataTable) {
         }
         if (this.searchable) {
           this.dataTableSearch = '';
+          this.defaultSearch = this.searchInput == null;
         }
-        console.log(this);
       }
 
       sortTable() {
@@ -92,6 +92,7 @@ function initPlugin(dataTable) {
       }
 
       reinitDataTable() {
+        const keepSearchFocus = (document.activeElement === this.searchInput);
         this.tableInstance.destroy();
         if (this.sortable) {
           this.initSortButtons();
@@ -99,6 +100,12 @@ function initPlugin(dataTable) {
         this.tableInstance.init({
           ajax: this.loadTableData(this.dataTableFilter, this.dataTablePage, this.dataTablePageSize, this.dataTableSearch, this.dataTableSort, this.dataTableDirection)
         })
+        if(this.searchable && this.defaultSearch){
+          this.replaceVanillaSearch();
+          if (keepSearchFocus){
+            this.searchInput.focus();
+          }
+        }
       }
 
       initFilters() {
@@ -114,7 +121,19 @@ function initPlugin(dataTable) {
         });
       }
 
+      replaceVanillaSearch(){
+        const origSearch = this.tableInstance.wrapper.querySelector('.dataTable-search input');
+        if(this.searchInput == null){
+          this.searchInput = origSearch.cloneNode(true);
+        }
+        origSearch.parentNode.replaceChild(this.searchInput, origSearch);
+      }
+
       initSearchInput() {
+        if(this.defaultSearch){
+          this.replaceVanillaSearch();
+        }
+
         const typingTimeoutTime = 500;
         let typingTimer;
 
@@ -158,7 +177,7 @@ function initPlugin(dataTable) {
         }
         this.tableInstance.init({
           'sortable': false,
-          'searchable': false,
+          'searchable': this.searchable === true ? true : false, // prevent sneaky undefines and other nasty JS stuff
           'fixedColumns': false,
           ajax: this.loadTableData(this.dataTableFilter, this.dataTablePage, this.dataTablePageSize, this.dataTableSearch, this.dataTableSort, this.dataTableDirection)
         })
@@ -188,7 +207,6 @@ function initPlugin(dataTable) {
               sorter.addEventListener('click', e => {
                 e.preventDefault();
                 const target = e.target.closest('th');
-                console.log(target);
                 let direction;
                 if (target.classList.contains('asc')) {
                   direction = 'desc';
@@ -203,7 +221,7 @@ function initPlugin(dataTable) {
           }
         });
 
-        if (this.searchInput != null && this.searchable) {
+        if (this.searchable) {
           this.initSearchInput();
         }
       }

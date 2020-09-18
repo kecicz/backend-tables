@@ -96,4 +96,6 @@ If you want to use filters with backend tables, you need to create a set of link
 The list with filter elements is passed to Backend Tables on init using the `filterElems` option
 
 ## Searching
-Search option from Simple Datatables is overridden by this plugin. If you want to search your table, you need to create own text input, that will be used for backend searching. This input is then passed over to Backend Tables using the `searchInput` option. You can also pass over a button, used to clear the search query.
+Easiest way is to enable backend search is to simply enable simple datatables own searchable option.
+
+If you want to use custom search input with your table, you can create your own text input, that will be used for backend searching. This input is then passed over to the Backend Tables using the `searchInput` option. You can also pass over a button, used to clear the search query.
