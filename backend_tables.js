@@ -100,9 +100,9 @@ function initPlugin(dataTable) {
         this.tableInstance.init({
           ajax: this.loadTableData(this.dataTableFilter, this.dataTablePage, this.dataTablePageSize, this.dataTableSearch, this.dataTableSort, this.dataTableDirection)
         })
-        if(this.searchable && this.defaultSearch){
+        if (this.searchable && this.defaultSearch) {
           this.replaceVanillaSearch();
-          if (keepSearchFocus){
+          if (keepSearchFocus) {
             this.searchInput.focus();
           }
         }
@@ -121,16 +121,16 @@ function initPlugin(dataTable) {
         });
       }
 
-      replaceVanillaSearch(){
+      replaceVanillaSearch() {
         const origSearch = this.tableInstance.wrapper.querySelector('.dataTable-search input');
-        if(this.searchInput == null){
+        if (this.searchInput == null) {
           this.searchInput = origSearch.cloneNode(true);
         }
         origSearch.parentNode.replaceChild(this.searchInput, origSearch);
       }
 
       initSearchInput() {
-        if(this.defaultSearch){
+        if (this.defaultSearch) {
           this.replaceVanillaSearch();
         }
 
@@ -167,6 +167,24 @@ function initPlugin(dataTable) {
         }
       }
 
+      passCustomStylesToElems() {
+        const elemAttrReg = /^data\-element\-(.+)$/;
+        this.tableInstance.container.querySelector('tbody').querySelectorAll('tr').forEach(tr => {
+          this.tableInstance.headings.forEach((th, colIdx) => {
+            for (let i = 0; i < th.attributes.length; i++) {
+              const attr = th.attributes[i];
+              const match = attr.nodeName.match(elemAttrReg);
+              if (match != null) {
+                const key = match[1];
+                if (key != null) {
+                  tr.querySelectorAll('td')[colIdx].setAttribute(key, attr.nodeValue);
+                }
+              }
+            }
+          });
+        });
+      }
+
       init() {
         if (this.filterable) {
           this.initFilters();
@@ -197,7 +215,7 @@ function initPlugin(dataTable) {
         // Callback after data is loaded
         this.tableInstance.on('datatable.init', () => {
           if (this.sortable) {
-            this.tableInstance.header.querySelectorAll('th').forEach(th => {
+            this.tableInstance.headings.forEach(th => {
               if (th.dataset.sortName === this.dataTableSort) {
                 th.classList.add(this.dataTableDirection);
               }
@@ -219,6 +237,14 @@ function initPlugin(dataTable) {
               });
             })
           }
+
+
+        });
+
+        this.tableInstance.on('datatable.update', () => {
+          if(this.tableInstance.data.length > 0) {
+            this.passCustomStylesToElems();
+          }
         });
 
         if (this.searchable) {
@@ -233,6 +259,6 @@ function initPlugin(dataTable) {
 
 try {
   exports.initPlugin = initPlugin;
-}catch(ex){
+} catch (ex) {
   console.error(`Error exporting initPlugin: ${ex.toString()}`);
 }

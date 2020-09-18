@@ -99,3 +99,13 @@ The list with filter elements is passed to Backend Tables on init using the `fil
 Easiest way is to enable backend search is to simply enable simple datatables own searchable option.
 
 If you want to use custom search input with your table, you can create your own text input, that will be used for backend searching. This input is then passed over to the Backend Tables using the `searchInput` option. You can also pass over a button, used to clear the search query.
+
+## Styling your table
+Because data are loaded to the table asynchronously, styling table rows is not that easy. Therefore, Backend Tables let you pass any attributes to elements in each column using `data-element` attributes of a column header.
+
+For example, if you need to add a class to each `<td>` element of some column of your table. You can simply define this attribute on the column header as
+
+```html
+<th data-element-class="center">Column name</th>
+```
+Each element in this collumn will then have class 'center' defined on it. 
