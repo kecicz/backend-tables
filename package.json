@@ -1,6 +1,6 @@
 {
   "name": "backend-tables",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "A Simple Datatables plugin for backend pagination, sorting and filtering",
   "main": "index.js",
   "scripts": {
