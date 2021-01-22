@@ -37,7 +37,7 @@ The request to the backend has the following parameters:
 | name | description |
 | ---- | ----------- |
 | offset  | offset for data load |
-| limit  | hown many rows to load |
+| limit  | how many rows to load |
 | term  | search term |
 | sort  | name of the column used for sorting |
 | direction  | sort direction |
