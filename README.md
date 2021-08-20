@@ -4,8 +4,9 @@ A plugin for Simple Datatables, that enables backend pagination, sorting, filter
 ## Install
 Just import backend tables plugin after Simple Datatables
 ```ecmascript 6
-import {DataTable} from "simple-datatables"
-import "backend-tables"
+import {DataTable} from "simple-datatables";
+import {initPlugin} from 'backend-tables/src';
+initPlugin(DataTable)
 ```
 
 ## Usage
