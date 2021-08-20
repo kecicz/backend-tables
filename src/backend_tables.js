@@ -1,4 +1,4 @@
-function initPlugin(dataTable) {
+export function initPlugin(dataTable) {
   dataTable.extend('backendTables', function (options) {
     class BackendTables {
       constructor(tableInstance) {
@@ -195,7 +195,7 @@ function initPlugin(dataTable) {
         }
         this.tableInstance.init({
           'sortable': false,
-          'searchable': this.searchable === true ? true : false, // prevent sneaky undefines and other nasty JS stuff
+          'searchable': this.searchable === true && this.defaultSearch ? true : false, // prevent sneaky undefines and other nasty JS stuff
           'fixedColumns': false,
           ajax: this.loadTableData(this.dataTableFilter, this.dataTablePage, this.dataTablePageSize, this.dataTableSearch, this.dataTableSort, this.dataTableDirection)
         })
@@ -207,8 +207,9 @@ function initPlugin(dataTable) {
         });
 
         this.tableInstance.on('datatable.perpage', pageSize => {
-          this.dataTablePageSize = parseInt(pageSize);
-          this.dataTablePage = Math.floor(((this.dataTablePage - 1) * this.dataTablePageSize / this.dataTablePageSize)) + 1;
+          const newSize = parseInt(pageSize);
+          this.dataTablePage = Math.floor(((this.dataTablePage - 1) * this.dataTablePageSize / newSize)) + 1;
+          this.dataTablePageSize = newSize;
           this.changeTablePage();
         });
 
@@ -255,10 +256,4 @@ function initPlugin(dataTable) {
 
     return new BackendTables(this);
   })
-}
-
-try {
-  exports.initPlugin = initPlugin;
-} catch (ex) {
-  console.error(`Error exporting initPlugin: ${ex.toString()}`);
 }
